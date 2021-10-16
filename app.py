@@ -1,6 +1,7 @@
 from flask import Flask, request
 from config.conf import settings
 from utils.pubsub import pubsub_message_to_dict
+from utils.run_scripts import run_process
 app = Flask(__name__)
 
 
@@ -13,7 +14,10 @@ def home():
 def pubsub():
     envelope = request.get_json()
     message_data, err_code = pubsub_message_to_dict(envelope)
-    return message_data, err_code
+    if err_code >= 300:
+        return message_data, err_code
+    result, err = run_process(message_data)
+    return result, err
 
 
 def run():

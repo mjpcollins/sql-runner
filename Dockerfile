@@ -1,4 +1,6 @@
+# TODO: MC 2021-10-15 Requires google / cloud-sdk:latest container - need to look this up
 FROM python:3.9-slim
+
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
