@@ -1,6 +1,4 @@
-# TODO: MC 2021-10-15 Requires google / cloud-sdk:latest container - need to look this up
-FROM python:3.9-slim
-
+FROM google/cloud-sdk:slim
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
@@ -11,6 +9,8 @@ WORKDIR $APP_HOME
 COPY . ./
 RUN pwd
 RUN ls -lah
+RUN apt-get -y update
+RUN apt-get -y install git
 RUN pip install -r requirements.txt
 RUN python -m unittest discover ./tests
 
