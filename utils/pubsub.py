@@ -27,7 +27,4 @@ def pubsub_message_to_dict(envelope):
         data = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
 
     full_decoded_message = {"message": {"data": data}}
-    import pprint
-    pprint.pprint(full_decoded_message)
-    print(repr(full_decoded_message['message']['data']))
     return full_decoded_message, 200
