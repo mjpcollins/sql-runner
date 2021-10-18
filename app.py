@@ -17,7 +17,7 @@ def pubsub():
     message_data, err_code = pubsub_message_to_dict(envelope)
     if err_code >= 300:
         return message_data, err_code
-    data = json.loads(message_data)
+    data = json.loads(message_data["message"]["data"])
     result, err = run_process(data)
     return jsonify(result), err
 
