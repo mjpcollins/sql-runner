@@ -11,9 +11,9 @@ RUN pwd
 RUN ls -lah
 RUN apt-get -y update
 RUN apt-get -y install git
-RUN pip install -r requirements.txt
-RUN python -V
-RUN python -m unittest discover ./tests
+RUN python3 -V
+RUN pip3 install -r requirements.txt
+RUN python3 -m unittest discover ./tests
 
 # Scale up the workers / threads to requirements
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 4 --timeout 0 app:app
