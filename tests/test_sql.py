@@ -199,6 +199,6 @@ class TestSQL(TestCase):
 
     def test_get_table_clustering_fields(self):
         input_settings = {}
-        expected_clusters = []
+        expected_clusters = None
         actual_clusters = get_table_clustering_fields(input_settings)
         self.assertEqual(expected_clusters, actual_clusters)
