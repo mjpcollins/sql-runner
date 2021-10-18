@@ -12,6 +12,7 @@ RUN ls -lah
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN pip install -r requirements.txt
+RUN python -V
 RUN python -m unittest discover ./tests
 
 # Scale up the workers / threads to requirements
