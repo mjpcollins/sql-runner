@@ -29,3 +29,4 @@ def run_process(request):
             full_job_settings['table_name'] = get_output_table_name(script_path)
             query_data['job_settings'] = full_job_settings
             run_script(query_data)
+    return {'status': 'OK'}, 200
