@@ -1,4 +1,7 @@
-from utils.fetch import download_to_local
+from utils.fetch import (
+    download_to_local,
+    delete_local_repo
+)
 from utils.tasks import (
     get_scripts_to_run,
     get_parameters
@@ -29,4 +32,7 @@ def run_process(request):
             full_job_settings['table_name'] = get_output_table_name(script_path)
             query_data['job_settings'] = full_job_settings
             run_script(query_data)
+
+    delete_local_repo(request)
+
     return {'status': 'OK'}, 200

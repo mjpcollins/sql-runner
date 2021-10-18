@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def download_to_local(request):
@@ -7,3 +8,7 @@ def download_to_local(request):
     command_text = f'gcloud source repos clone {repo} --project={project}'
     os.system(command_text)
 
+
+def delete_local_repo(request):
+    repo = request['repo']
+    shutil.rmtree(repo)
