@@ -56,10 +56,11 @@ class DependencyGraph:
 
     def _identify_root_nodes(self):
         possible_roots = {table_name for table_name in self._table_nodes}
-        for table_name in self._table_nodes:
-            deps = self._get_all_dependencies(self._table_nodes[table_name])
+        for node in self._table_nodes.values():
+            deps = self._get_all_dependencies(node)
             possible_roots = possible_roots.difference(deps)
-        self._root_nodes = possible_roots
+        self._root_nodes = list(possible_roots)
+        self._root_nodes.sort()
 
     def _get_all_dependencies(self, table_node):
         deps = set()

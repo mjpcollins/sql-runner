@@ -14,6 +14,6 @@ SELECT
            specification_make, '-',
            specification_model, '-',
            dealer_location_postcode) AS joining_column
-FROM {100_autotrader_filter}
+FROM {autotrader_source}
 WHERE DATE(_PARTITIONTIME) = "{partition_date}"
 """
