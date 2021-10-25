@@ -25,11 +25,12 @@ class TestDependencyGraph(TestCase):
                                  'OVERWRITE': 'False',
                                  'PARTITION': 'True',
                                  'PARTITION_BY': 'DATE',
-                                 'DATASET': 'sql_runner_pilot',
+                                 'dataset': 'sql_runner_pilot',
                                  'params': 'some_params',
                                  'project': 'national-rail-247416',
                                  'repo': 'a_repo',
-                                 'table_name': 'national-rail-247416.sql_runner_pilot.100_autotrader_filter'}
+                                 'table_name': 'national-rail-247416.sql_runner_pilot.100_autotrader_filter',
+                                 'validation_table': 'national-rail-247416.sql_runner_pilot.validation_tests'}
         expected_query_string = "\n-- DESCRIPTION: Table to create a unique joining column" \
                                 "\n-- OVERWRITE: False" \
                                 "\n-- PARTITION: True" \

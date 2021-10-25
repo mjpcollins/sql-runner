@@ -4,14 +4,12 @@ from google.cloud.bigquery import (
     Table,
     TimePartitioning
 )
-from unittest import TestCase, mock
+from unittest import TestCase
 from utils.big_query import (
-    full_output_table,
     configure_query_settings,
     configure_table,
     get_table_clustering_fields
 )
-from tests.misc import expected_loaded_query_string
 
 
 class TestSQL(TestCase):
@@ -25,7 +23,7 @@ class TestSQL(TestCase):
                         'OVERWRITE': 'False',
                         'PARTITION': 'True',
                         'PARTITION_BY': 'DATE',
-                        'table_name': '300_apples',
+                        'table_name': 'example_project.sql_runner_pilot.300_apples',
                         'project': 'example_project',
                         'dataset': 'sql_runner_pilot'}
         conf = {'clustering_fields': None,
@@ -38,22 +36,6 @@ class TestSQL(TestCase):
         actual_api_repr = configure_query_settings(job_settings).to_api_repr()
         self.assertEqual(expected_api_repr, actual_api_repr)
 
-    def test_full_output_table(self):
-        combined_settings = {'repo': 'a_repo',
-                             'params': 'some_params',
-                             'params_import_path': 'a_repo.sql.some_params',
-                             'sql_file_path': 'a_repo/sql/',
-                             'DESCRIPTION': 'Table to create a unique joining column',
-                             'OVERWRITE': 'False',
-                             'PARTITION': 'True',
-                             'PARTITION_BY': 'DATE',
-                             'table_name': '300_apples',
-                             'project': 'example_project',
-                             'dataset': 'sql_runner_pilot'}
-        expected_table_name = 'example_project.sql_runner_pilot.300_apples'
-        actual_table_name = full_output_table(combined_settings)
-        self.assertEqual(expected_table_name, actual_table_name)
-
     def test_configure_load_job_settings(self):
         query_data = {'job_settings': {'repo': 'a_repo',
                                        'params': 'some_params',
@@ -64,7 +46,7 @@ class TestSQL(TestCase):
                                        'PARTITION': 'True',
                                        'CLUSTERING_FIELDS': 'date_of_run, specification_make',
                                        'PARTITION_BY': 'date_of_run',
-                                       'table_name': '300_apples',
+                                       'table_name': 'example_project.sql_runner_pilot.300_apples',
                                        'project': 'example_project',
                                        'dataset': 'sql_runner_pilot'},
                       'schema': [SchemaField(name='registration',

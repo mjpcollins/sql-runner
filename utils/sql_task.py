@@ -47,10 +47,11 @@ class SQLTask(BaseSQLTask):
         return self.output_table_name
 
     def _get_validation_tasks(self):
-        js = self._query_data['job_settings'].get('VALIDATION', '')
-        for validation_name in js.split(','):
-            validation_file_path = self._request['validation_files'][validation_name]
-            validation_task = ValidationTask(filename=validation_file_path,
-                                             params=self._params,
-                                             request=self._request)
-            self._validation_tasks.append(validation_task)
+        js = self._query_data['job_settings'].get('VALIDATION', None)
+        if js:
+            for validation_name in js.split(','):
+                validation_file_path = self._request['validation_files'][validation_name]
+                validation_task = ValidationTask(filename=validation_file_path,
+                                                 params=self._params,
+                                                 request=self._request)
+                self._validation_tasks.append(validation_task)
