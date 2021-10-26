@@ -2,7 +2,7 @@ import re
 from google.cloud.bigquery import SchemaField
 
 
-config_key_regex = re.compile(r'([A-Za-z_0-9]+) *:')
+config_key_regex = re.compile(r'([A-Za-z_ 0-9]+) *:')
 config_value_regex = re.compile(r': *([A-Za-z_ 0-9,]+)')
 schema_config_key_regex = re.compile(r'([A-Za-z_]+) *=')
 schema_config_value_regex = re.compile(r'= *([0-9A-Za-z_ \.\'\"]+)')
@@ -18,25 +18,21 @@ def extract_sql_config(file_lines):
 
 def extract_settings(comments):
     config = {}
-    for c in comments:
-        k = config_key_regex.findall(c)
-        v = config_value_regex.findall(c)
+    for k, v, c in generate_config_keys_and_values_from_comments(comments):
         if k and v:
-            config[k[0]] = v[0]
+            config[k] = v
     return config
 
 
 def extract_schema(comments):
     in_schema_params = False
     schema = []
-    for c in comments:
-
-        k = config_key_regex.findall(c)
+    for k, v, c in generate_config_keys_and_values_from_comments(comments):
         if k:
-            if k[0] == 'SCHEMA':
+            if k == 'SCHEMA':
                 in_schema_params = True
                 continue
-            elif k[0] == 'END_SCHEMA':
+            elif k == 'END_SCHEMA':
                 in_schema_params = False
 
         if in_schema_params:
@@ -55,3 +51,15 @@ def extract_schema_settings_from_comment(comment):
     return SchemaField(**config_dict)
 
 
+def generate_config_keys_and_values_from_comments(comments):
+    for c in comments:
+        k = config_key_regex.findall(c)
+        v = get_matched_data(config_value_regex.findall(c))
+        if k:
+            k = k[0].strip().replace(' ', '_').upper()
+        yield k, v, c
+
+
+def get_matched_data(match):
+    if match:
+        return match[0]

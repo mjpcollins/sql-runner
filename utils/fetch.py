@@ -11,4 +11,7 @@ def download_to_local(request):
 
 def delete_local_repo(request):
     repo = request['repo']
-    shutil.rmtree(repo)
+    try:
+        shutil.rmtree(repo)
+    except FileNotFoundError:
+        pass

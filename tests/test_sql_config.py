@@ -12,10 +12,10 @@ class TestSQLConfig(TestCase):
 
     @mock.patch("builtins.open", new_callable=mock.mock_open, read_data=expected_loaded_query_string)
     def test_extract_sql_config(self, _):
-        input_file_lines = ["-- DESCRIPTION:  Table to create a unique joining column",
+        input_file_lines = ["-- DESCRiPTION:  Table to create a unique joining column",
                             "-- OVERWRITE : False ",
                             "--  PARTITION: True",
-                            "  -- PARTITION_BY: DATE",
+                            "  -- PARTItION BY: DATE",
                             "",
                             "SELECT",
                             "    registration,",
@@ -40,14 +40,14 @@ class TestSQLConfig(TestCase):
         input_file_lines = ["-- DESCRIPTION:  Table to create a unique joining column",
                             "-- OVERWRITE : False ",
                             "--  PARTITION: True",
-                            "  -- PARTITION_BY: DATE",
+                            "  -- PARTITION BY: DATE",
                             "-- SCHEMA:",
                             "--  name=registration, field_type=STRING, description=Field to describe the registration of the car. E.g. \"LT15 HFG\"",
                             "--  name=specification_int, field_type=INT64",
                             "--  name=specification_model, field_type=STRING",
                             "--  name=dealer_location_postcode, field_type=STRING",
                             "--  name=joining_column, field_type=STRING",
-                            "-- END_SCHEMA:",
+                            "-- END SCHEMA:",
                             "-- Comment about the weather which isn't important right now"]
         expected_schema = [SchemaField(name='registration',
                                        field_type='STRING',
@@ -66,6 +66,7 @@ class TestSQLConfig(TestCase):
                                        field_type='STRING',
                                        mode='NULLABLE')]
         actual_schema = extract_schema(input_file_lines)
+        self.assertEqual(len(expected_schema), len(actual_schema))
         for idx, exp_schema in enumerate(expected_schema):
             self.assertEqual(exp_schema.to_api_repr(),
                              actual_schema[idx].to_api_repr())

@@ -6,6 +6,7 @@ from utils.tasks import get_tasks
 
 
 def run_process(request):
+    delete_local_repo(request)
     download_to_local(request)
     all_tasks = get_tasks(request)
     for task_name in all_tasks['task_order']:
