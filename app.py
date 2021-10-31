@@ -2,7 +2,7 @@ import json
 from flask import Flask, request, jsonify
 from config.conf import settings
 from utils.pubsub import pubsub_message_to_dict
-from utils.run_scripts import run_process
+from jiffysql import Jiffy
 app = Flask(__name__)
 
 
@@ -18,8 +18,9 @@ def pubsub():
     if err_code >= 300:
         return message_data, err_code
     data = json.loads(message_data["message"]["data"])
-    result, err = run_process(data)
-    return jsonify(result), err
+    jiffy = Jiffy(data)
+    jiffy.run()
+    return jsonify({'status': 'OK'}), 200
 
 
 def run():
